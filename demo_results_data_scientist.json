@@ -1,0 +1,302 @@
+[
+  {
+    "job_id": "5443677928",
+    "title": "Data Scientist",
+    "company": "Collabera",
+    "location": "Charlotte, Mecklenburg County",
+    "salary": "$135,956 - $135,956",
+    "url": "https://www.adzuna.com/land/ad/5443677928?se=CDLSVxer8BGx28w6uJEWAQ&utm_medium=api&utm_source=79526dca&v=95440769E6B609CF61D7C046F2A7FA960F7FC100",
+    "scores": {
+      "overall": 0.975763656372141,
+      "tfidf": 1.0,
+      "lda": 0.9992819137347188,
+      "embedding": 0.9518863558769226
+    },
+    "description": "Client - Retail Title - Senior Data Scientist Type - Contract Pay Range - $57-60/hr DayToDay Responsbilities: Design, develop, and deploy machine learning and deep learning models into production. Write clean, maintainable, and production-grade Python code. Partner with business sponsors to define success metrics and quantify model impact. Work cross-functionally with engineers to build scalable data pipelines for training and inference. Conduct testing, validation, and monitoring to ensure con…..."
+  },
+  {
+    "job_id": "1128304",
+    "title": "Machine Learning Engineer",
+    "company": "Canals AI",
+    "location": "Remote",
+    "salary": null,
+    "url": "https://remoteOK.com/remote-jobs/remote-machine-learning-engineer-canals-ai-1128304",
+    "scores": {
+      "overall": 0.8975386100531032,
+      "tfidf": 0.7920719523309294,
+      "lda": 0.7980824878814835,
+      "embedding": 1.0
+    },
+    "description": "<h2>Machine Learning Engineer</h2><p style=\"min-height:1.5em\"><strong>Remote â North or South America | Full-Time | Canals AI</strong></p><h3>About Canals</h3><p style=\"min-height:1.5em\">Canals is a bootstrapped, profitable startup transforming logistics and distribution with AI. Our platform seamlessly integrates with the systems distributors, manufacturers, and vendors already use, automating tedious tasks and reducing failure points in moving physical goods across the globe. Weâre a 40-pe..."
+  },
+  {
+    "job_id": "5438513004",
+    "title": "Machine Learning Engineer",
+    "company": "CEI",
+    "location": "Philadelphia, Philadelphia County",
+    "salary": "$147,392 - $147,392",
+    "url": "https://www.adzuna.com/land/ad/5438513004?se=pvgUxBer8BGOO8HImVPizA&utm_medium=api&utm_source=79526dca&v=3F2B37BF8D0B023DC753BE3A0AB20CA3C422A7D8",
+    "scores": {
+      "overall": 0.8685171421430794,
+      "tfidf": 0.6274149879067292,
+      "lda": 1.0,
+      "embedding": 0.9233267903327942
+    },
+    "description": "Job Description Job Description Description – Machine Learning Engineer Summary: We’re seeking a skilled Machine Learning Engineer to join a remote team focused on enhancing customer experiences through advanced AI troubleshooting and model refinement. This role centers on replicating and resolving user-reported issues using large language models (LLMs), with the goal of replacing existing systems with deterministic, intelligent solutions. Job at a glance: 9-month contract (Possibility of exten…..."
+  },
+  {
+    "job_id": "stripe-7176812",
+    "title": "Machine Learning Engineer, Supportability",
+    "company": "Stripe",
+    "location": "San Francisco or Seattle",
+    "salary": null,
+    "url": "https://stripe.com/jobs/search?gh_jid=7176812",
+    "scores": {
+      "overall": 0.8551808538318053,
+      "tfidf": 0.7308333921814784,
+      "lda": 0.8962703904247955,
+      "embedding": 0.8968098163604736
+    },
+    "description": "<h2><strong>Who we are</strong></h2>\n<h3><strong>About Stripe</strong></h3>\n<p>Stripe is a financial infrastructure platform for businesses. Millions of companies—from the world’s largest enterprises to the most ambitious startups—use Stripe to accept payments, grow their revenue, and accelerate new business opportunities. Our mission is to increase the GDP of the internet, and we have a staggering amount of work ahead. That means you have an unprecedented opportunity to put the global economy w..."
+  },
+  {
+    "job_id": "airbnb-7258033",
+    "title": "Senior Machine Learning Engineer, Relevance and Personalization",
+    "company": "Airbnb",
+    "location": "United States",
+    "salary": null,
+    "url": "https://careers.airbnb.com/positions/7258033?gh_jid=7258033",
+    "scores": {
+      "overall": 0.8499160683538615,
+      "tfidf": 0.864085720842417,
+      "lda": 0.9019622243335881,
+      "embedding": 0.8168081641197205
+    },
+    "description": "<div class=\"content-intro\"><p><span style=\"font-family: helvetica, arial, sans-serif; font-size: 12pt;\">Airbnb was born in 2007 when two hosts welcomed three guests to their San Francisco home, and has since grown to over 5 million hosts who have welcomed over 2 billion guest arrivals in almost every country across the globe. Every day, hosts offer unique stays and experiences that make it possible for guests to connect with communities in a more authentic way.</span></p></div><p><span style=\"fo..."
+  },
+  {
+    "job_id": "stripe-7216668",
+    "title": "PhD Machine Learning Engineer, New Grad",
+    "company": "Stripe",
+    "location": "San Francisco, New York City, Seattle",
+    "salary": null,
+    "url": "https://stripe.com/jobs/search?gh_jid=7216668",
+    "scores": {
+      "overall": 0.8418758319720945,
+      "tfidf": 0.8805639419851874,
+      "lda": 0.8556496653679122,
+      "embedding": 0.8156448602676392
+    },
+    "description": "<h2>Who we are</h2>\n<h3>About Stripe</h3>\n<p>Stripe is a financial infrastructure platform for businesses. Millions of companies—from the world’s largest enterprises to the most ambitious startups—use Stripe to accept payments, grow their revenue, and accelerate new business opportunities. Our mission is to increase the GDP of the internet, and we have a staggering amount of work ahead. That means you have an unprecedented opportunity to put the global economy within everyone’s reach while doing..."
+  },
+  {
+    "job_id": "5428671705",
+    "title": "Data Scientist/Senior Data Scientist",
+    "company": "Knowli Corp dba Knowli Data Science",
+    "location": "Tallahassee, Leon County",
+    "salary": "$72,833 - $72,833",
+    "url": "https://www.adzuna.com/land/ad/5428671705?se=CDLSVxer8BGx28w6uJEWAQ&utm_medium=api&utm_source=79526dca&v=EC11BABEA612DABDE4F045872C1AD0B51D66DFA4",
+    "scores": {
+      "overall": 0.8402044753988462,
+      "tfidf": 0.9322669476134906,
+      "lda": 0.7297648144936744,
+      "embedding": 0.8493930697441101
+    },
+    "description": "Job Description Job Description Knowli Data Science is looking for experienced data scientists to join our nationally growing team. The ideal candidate should have a degree in mathematics, computer science, physics, statistics, quantitative social science, or similar field and at least 3 years of experience working in data analytics, data visualization, or data science roles. Familiarity with programming for data analysis is required; preferably, SQL, Python, and R. Experience with machine lear…..."
+  },
+  {
+    "job_id": "airbnb-7028263",
+    "title": "Senior Staff Machine Learning Engineer – GenAI",
+    "company": "Airbnb",
+    "location": "United States",
+    "salary": null,
+    "url": "https://careers.airbnb.com/positions/7028263?gh_jid=7028263",
+    "scores": {
+      "overall": 0.8339357641056608,
+      "tfidf": 0.7204578426175999,
+      "lda": 0.9019425471790667,
+      "embedding": 0.8566713333129883
+    },
+    "description": "<div class=\"content-intro\"><p><span style=\"font-family: helvetica, arial, sans-serif; font-size: 12pt;\">Airbnb was born in 2007 when two hosts welcomed three guests to their San Francisco home, and has since grown to over 5 million hosts who have welcomed over 2 billion guest arrivals in almost every country across the globe. Every day, hosts offer unique stays and experiences that make it possible for guests to connect with communities in a more authentic way.</span></p></div><p><strong>Communi..."
+  },
+  {
+    "job_id": "stripe-7216664",
+    "title": "PhD Machine Learning Engineer, Intern",
+    "company": "Stripe",
+    "location": "San Francisco, New York City, Seattle",
+    "salary": null,
+    "url": "https://stripe.com/jobs/search?gh_jid=7216664",
+    "scores": {
+      "overall": 0.8280134272077043,
+      "tfidf": 0.8471199224527214,
+      "lda": 0.8475928640224442,
+      "embedding": 0.8086704611778259
+    },
+    "description": "<h2><strong>Who we are</strong></h2>\n<h3><strong>About Stripe</strong></h3>\n<p>Stripe is a financial infrastructure platform for businesses. Millions of companies—from the world’s largest enterprises to the most ambitious startups—use Stripe to accept payments, grow their revenue, and accelerate new business opportunities. Our mission is to increase the GDP of the internet, and we have a staggering amount of work ahead. That means you have an unprecedented opportunity to put the global economy w..."
+  },
+  {
+    "job_id": "airbnb-6237467",
+    "title": "Senior Staff Machine Learning Engineer, Relevance and Personalization",
+    "company": "Airbnb",
+    "location": "United States",
+    "salary": null,
+    "url": "https://careers.airbnb.com/positions/6237467?gh_jid=6237467",
+    "scores": {
+      "overall": 0.8279030139752029,
+      "tfidf": 0.7339883492959143,
+      "lda": 0.9070657308358545,
+      "embedding": 0.8352789878845215
+    },
+    "description": "<div class=\"content-intro\"><p><span style=\"font-family: helvetica, arial, sans-serif; font-size: 12pt;\">Airbnb was born in 2007 when two hosts welcomed three guests to their San Francisco home, and has since grown to over 5 million hosts who have welcomed over 2 billion guest arrivals in almost every country across the globe. Every day, hosts offer unique stays and experiences that make it possible for guests to connect with communities in a more authentic way.</span></p></div><p><span style=\"fo..."
+  },
+  {
+    "job_id": "5430593676",
+    "title": "DATA SCIENTIST",
+    "company": "VSolvit LLC",
+    "location": "Norco, Riverside County",
+    "salary": "$101,988 - $101,988",
+    "url": "https://www.adzuna.com/land/ad/5430593676?se=CDLSVxer8BGx28w6uJEWAQ&utm_medium=api&utm_source=79526dca&v=69E1CB579F65EFCC8CFE2A70CAF3B9A95A931C40",
+    "scores": {
+      "overall": 0.8126307153593215,
+      "tfidf": 0.8061501580606452,
+      "lda": 0.9110383289488453,
+      "embedding": 0.7666671872138977
+    },
+    "description": "Data Scientist - Onsite – Norco, CA Job Summary: We are seeking a talented and drivenData ScientistwithSecret Clearanceto join our dynamic team. In this role, you will apply advanced data analytics and machine learning techniques to solve complex problems in a variety of domains. You will work with large datasets, develop predictive models, and support decision-making processes while adhering to the highest standards of security and confidentiality. As with any position, additional expectations…..."
+  },
+  {
+    "job_id": "5369661405",
+    "title": "Data Scientist 4",
+    "company": "Oracle",
+    "location": "Wyoming, Kent County",
+    "salary": "$147,070 - $147,070",
+    "url": "https://www.adzuna.com/land/ad/5369661405?se=CDLSVxer8BGx28w6uJEWAQ&utm_medium=api&utm_source=79526dca&v=967F14BF87BC41AE5F6D77F5049B674B6D245EDC",
+    "scores": {
+      "overall": 0.8116853884388591,
+      "tfidf": 0.8388432945155191,
+      "lda": 0.9436283827598149,
+      "embedding": 0.7321349382400513
+    },
+    "description": "Job Description As a Principal Data Scientist, you will play a key role in designing, building, and maintaining the data infrastructure that powers statistical analyses and machine learning efforts for the Core Infrastructure Availability Engineering organization. You will work closely with data scientists, engineers, and other stakeholders to develop and deploy scalable, efficient, and reliable data pipelines that drive business value, while leading initiatives to improve, deliver, and enable …..."
+  },
+  {
+    "job_id": "1128308",
+    "title": "Machine Learning Engineer",
+    "company": "Incode Technologies",
+    "location": "Remote",
+    "salary": "$60,000 - $120,000",
+    "url": "https://remoteOK.com/remote-jobs/remote-machine-learning-engineer-incode-technologies-1128308",
+    "scores": {
+      "overall": 0.8106797013054652,
+      "tfidf": 0.6701374134242881,
+      "lda": 0.8612644486289326,
+      "embedding": 0.8556584715843201
+    },
+    "description": "<strong>POWER A WORLD OF TRUST</strong><p>Incode is the leading provider of world-class identity solutions that is reinventing the way humans authenticate and verify their identities online to power a world of digital trust.</p><p>Through our revolutionary identity solutions, we are unleashing the business potential of universal industries including finance, government, retail, hospitality, gaming, and more, by reducing fraud and transforming human interactions with data, products, and services...."
+  },
+  {
+    "job_id": "stripe-7079044",
+    "title": "Machine Learning Engineer, Payments ML Accelerator",
+    "company": "Stripe",
+    "location": "Seattle; San Francisco; New York City",
+    "salary": null,
+    "url": "https://stripe.com/jobs/search?gh_jid=7079044",
+    "scores": {
+      "overall": 0.8067828238093063,
+      "tfidf": 0.8053690098301747,
+      "lda": 0.8800435640172802,
+      "embedding": 0.7708593606948853
+    },
+    "description": "<div class=\"ace-line gutter-author-p-118095 emptyGutter\">\n<div class=\"ace-line gutter-author-p-118095 emptyGutter\">\n<h3><strong>About Stripe</strong></h3>\n<p>Stripe is a financial infrastructure platform for businesses. Millions of companies—from the world’s largest enterprises to the most ambitious startups—use Stripe to accept payments, grow their revenue, and accelerate new business opportunities. Our mission is to increase the GDP of the internet, and we have a staggering amount of work ahea..."
+  },
+  {
+    "job_id": "5408525490",
+    "title": "Data Scientist",
+    "company": "Vianai",
+    "location": "Stanford, Santa Clara County",
+    "salary": "$153,692 - $153,692",
+    "url": "https://www.adzuna.com/land/ad/5408525490?se=CDLSVxer8BGx28w6uJEWAQ&utm_medium=api&utm_source=79526dca&v=0E7843B7D563FB6487BC1E47ABB6FDC057A7FBD9",
+    "scores": {
+      "overall": 0.8059221528538343,
+      "tfidf": 0.7865719726817483,
+      "lda": 0.8034960189597241,
+      "embedding": 0.8168103098869324
+    },
+    "description": "Vianai is looking for an experienced Data Scientist who will build and train our next generation AI platform. Our ideal Data Scientist is hands-on, collaborative, self-motivated, and innovative. She or he should be as excited as we are to create human-centered AI products poised for rapid growth and continued success. Expectations: • You will be part of our ML/Data Science and Engineering teams focused on building and training robust and interactive machine learning applications. • You will col…..."
+  },
+  {
+    "job_id": "5391546437",
+    "title": "Machine Learning Engineer",
+    "company": "Micron Technology, Inc.",
+    "location": "Boise, Ada County",
+    "salary": "$163,173 - $163,173",
+    "url": "https://www.adzuna.com/land/ad/5391546437?se=pvgUxBer8BGOO8HImVPizA&utm_medium=api&utm_source=79526dca&v=2152292C2872A6910E0EB6D2A79B0C9C2B9B3E32",
+    "scores": {
+      "overall": 0.8049061395544276,
+      "tfidf": 0.6931013136169523,
+      "lda": 0.9455510499291272,
+      "embedding": 0.7904860973358154
+    },
+    "description": "Our vision is to transform how the world uses information to enrich life for _all_ . Micron Technology is a world leader in innovating memory and storage solutions that accelerate the transformation of information into intelligence, inspiring the world to learn, communicate and advance faster than ever. Analyze existing data sets to identify patterns, trends, and insights that can enhance machine learning model development. Design, implement, and iterate on machine learning models to address sp…..."
+  },
+  {
+    "job_id": "5370193678",
+    "title": "Data Scientist 4",
+    "company": "Oracle",
+    "location": "Sacramento, Sacramento County",
+    "salary": "$154,078 - $154,078",
+    "url": "https://www.adzuna.com/land/ad/5370193678?se=CDLSVxer8BGx28w6uJEWAQ&utm_medium=api&utm_source=79526dca&v=6A8C0777E2B0AFA8EC2B4083BF6197E94DCADB54",
+    "scores": {
+      "overall": 0.8002956652704627,
+      "tfidf": 0.8186427650467594,
+      "lda": 0.945964244866268,
+      "embedding": 0.7182878255844116
+    },
+    "description": "Job Description As a Principal Data Scientist, you will play a key role in designing, building, and maintaining the data infrastructure that powers statistical analyses and machine learning efforts for the Core Infrastructure Availability Engineering organization. You will work closely with data scientists, engineers, and other stakeholders to develop and deploy scalable, efficient, and reliable data pipelines that drive business value, while leading initiatives to improve, deliver, and enable …..."
+  },
+  {
+    "job_id": "airbnb-6757302",
+    "title": "Senior Staff Machine Learning Engineer, Community Support Engineering",
+    "company": "Airbnb",
+    "location": "United States",
+    "salary": null,
+    "url": "https://careers.airbnb.com/positions/6757302?gh_jid=6757302",
+    "scores": {
+      "overall": 0.7999036958839066,
+      "tfidf": 0.7959127565525133,
+      "lda": 0.9019624058206988,
+      "embedding": 0.7508698105812073
+    },
+    "description": "<div class=\"content-intro\"><p><span style=\"font-family: helvetica, arial, sans-serif; font-size: 12pt;\">Airbnb was born in 2007 when two hosts welcomed three guests to their San Francisco home, and has since grown to over 5 million hosts who have welcomed over 2 billion guest arrivals in almost every country across the globe. Every day, hosts offer unique stays and experiences that make it possible for guests to connect with communities in a more authentic way.</span></p></div><p>&nbsp;</p>\n<p><..."
+  },
+  {
+    "job_id": "5450829924",
+    "title": "Senior Data Scientist",
+    "company": "Cognizant",
+    "location": "Raleigh, Wake County",
+    "salary": "$218,052 - $218,052",
+    "url": "https://www.adzuna.com/land/ad/5450829924?se=CDLSVxer8BGx28w6uJEWAQ&utm_medium=api&utm_source=79526dca&v=8B393BA6E52A58B38BFC731D018D38B30B90EEE2",
+    "scores": {
+      "overall": 0.7864510348803194,
+      "tfidf": 0.598751380565344,
+      "lda": 0.8920084417104502,
+      "embedding": 0.8275221586227417
+    },
+    "description": "Title: Senior Data Scientist We are Cognizant AIA - Artificial Intelligence and Analytics  About AI & Analytics: Artificial intelligence (AI) and the data it collects and analyzes will soon sit at the core of all intelligent, human-centric businesses. By decoding customer needs, preferences, and behaviors, our clients can understand exactly what services, products, and experiences their consumers need. Within AI & Analytics, we work to design the future—a future in which trial-and-error busines…..."
+  },
+  {
+    "job_id": "5424865793",
+    "title": "Artificial Intelligence / Machine Learning Engineer with Poly SR",
+    "company": "Lockheed Martin",
+    "location": "Savage, Anne Arundel County",
+    "salary": "$169,115 - $169,115",
+    "url": "https://www.adzuna.com/land/ad/5424865793?se=pvgUxBer8BGOO8HImVPizA&utm_medium=api&utm_source=79526dca&v=B2B758AAE36E2F994C654555B45B3F6A16A3DBCC",
+    "scores": {
+      "overall": 0.7834694882669013,
+      "tfidf": 0.5720537864486906,
+      "lda": 0.9887263415685605,
+      "embedding": 0.786548912525177
+    },
+    "description": "Job ID: 702489BR Date posted: Aug. 25, 2025 Description: THE WORK The Artificial Intelligence/Machine Learning (AI/ML) Engineer designs, creates, tests, and productizes AI/ML algorithms to solve business challenges. The AI/ML models they create should be capable of learning and making predictions as defined by the business logic developed to meet customer requirements. The AI/ML Engineer should be proficient in all aspects of model architecture, data pipeline interaction, and metrics applicatio…..."
+  }
+]
