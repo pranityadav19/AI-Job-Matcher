@@ -51,6 +51,7 @@ python demo.py
 
 ## Next Steps
 
+- [ ] Further input validation for YOE, degree, and qualifactions
 - [ ] Web frontend (Flask/FastAPI)
 - [ ] Model persistence
 - [ ] Skill extraction
