@@ -4,7 +4,7 @@ Intelligent job matching system using NLP to match resumes with job postings. An
 
 ## Features
 
-- **Multi-Method Matching**: TF-IDF, LDA Topic Modeling, Sentence Embeddings
+- **Multi-Method Matching**: TF-IDF, LDA Topic Modeling, Sentence Embeddings 
 - **Match Explanations**: Shows WHY each job matched with keywords and overlap %
 - **Resume Parsing**: Extracts years of experience, education level, degree details, and skills
 - **Qualification Filtering**: Filter jobs based on your experience and education requirements
