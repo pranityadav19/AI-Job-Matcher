@@ -1,12 +1,6 @@
 """
 Job Matcher Algorithm using NLP Techniques
-Combines TF-IDF, Word Embeddings, and LDA for optimal job matching
-
-IMPROVEMENTS IN THIS VERSION:
-- Fixed preprocessing to preserve technical terms (C++, Python3, etc.)
-- Added resume embedding caching for faster matching
-- Added input validation to prevent crashes
-- Better error handling
+Combines TF-IDF, Word Embeddings, and LDA for optimal job matching 
 """
 
 import json
@@ -597,6 +591,25 @@ def save_results_to_text(results: List[Dict], output_file: str, resume_file: str
             f.write(f"   Location: {job['location']}\n")
             f.write(f"   Match Score: {result['overall_score']:.2%}\n")
             f.write(f"   Salary: {job.get('salary', 'Not specified')}\n")
+            
+            # Show job requirements in summary
+            if 'job_requirements' in result and result['job_requirements']:
+                job_reqs = result['job_requirements']
+                reqs_text = []
+                if 'min_years' in job_reqs:
+                    reqs_text.append(f"{job_reqs['min_years']}+ years exp")
+                if 'required_degree' in job_reqs:
+                    reqs_text.append(f"{job_reqs['required_degree'].title()} degree")
+                if reqs_text:
+                    f.write(f"   Requirements: {', '.join(reqs_text)}\n")
+                    
+                    # Show if candidate qualifies
+                    if 'candidate_qualifies' in result and result['candidate_qualifies'] is not None:
+                        if result['candidate_qualifies']:
+                            f.write(f"   Status: [YOU QUALIFY]\n")
+                        else:
+                            f.write(f"   Status: [DOES NOT MEET REQUIREMENTS]\n")
+            
             f.write(f"   URL: {job.get('url', 'N/A')}\n")
             
             # Add explanation if available
@@ -630,6 +643,33 @@ def save_results_to_text(results: List[Dict], output_file: str, resume_file: str
             f.write(f"Company: {job['company']}\n")
             f.write(f"Location: {job['location']}\n")
             f.write(f"Salary: {job.get('salary', 'Not specified')}\n")
+            f.write("\n")
+            
+            # Show job requirements if available
+            if 'job_requirements' in result:
+                job_reqs = result['job_requirements']
+                if job_reqs:
+                    f.write(f"JOB REQUIREMENTS:\n")
+                    if 'min_years' in job_reqs:
+                        f.write(f"  Minimum Experience: {job_reqs['min_years']} years\n")
+                    if 'required_degree' in job_reqs:
+                        f.write(f"  Required Degree: {job_reqs['required_degree'].title()}\n")
+                else:
+                    f.write(f"JOB REQUIREMENTS:\n")
+                    f.write(f"  No specific requirements detected in job description\n")
+            else:
+                f.write(f"JOB REQUIREMENTS:\n")
+                f.write(f"  No requirements parsed\n")
+            
+            # ALWAYS show qualification status
+            if 'candidate_qualifies' in result and result['candidate_qualifies'] is not None:
+                if result['candidate_qualifies']:
+                    f.write(f"  YOUR STATUS: [YOU QUALIFY]\n")
+                else:
+                    f.write(f"  YOUR STATUS: [DOES NOT MEET REQUIREMENTS]\n")
+            else:
+                f.write(f"  YOUR STATUS: [REQUIREMENTS NOT SPECIFIED - LIKELY QUALIFY]\n")
+            
             f.write("\n")
             
             f.write(f"MATCH SCORES:\n")
@@ -718,6 +758,25 @@ def print_results(results: List[Dict], top_n: int = 10):
         print(f"{i}. {job['title']} at {job['company']}")
         print(f"   Location: {job['location']}")
         print(f"   Salary: {job.get('salary', 'Not specified')}")
+        
+        # Show job requirements and qualification status
+        if 'job_requirements' in result and result['job_requirements']:
+            job_reqs = result['job_requirements']
+            reqs_text = []
+            if 'min_years' in job_reqs:
+                reqs_text.append(f"{job_reqs['min_years']}+ yrs")
+            if 'required_degree' in job_reqs:
+                reqs_text.append(f"{job_reqs['required_degree'].title()}")
+            if reqs_text:
+                print(f"   Requirements: {', '.join(reqs_text)}")
+        
+        # Show qualification status
+        if 'candidate_qualifies' in result and result['candidate_qualifies'] is not None:
+            if result['candidate_qualifies']:
+                print(f"   Status: [YOU QUALIFY]")
+            else:
+                print(f"   Status: [DOES NOT MEET REQUIREMENTS]")
+        
         print(f"   Overall Score: {result['overall_score']:.4f}")
         print(f"   - TF-IDF: {result['tfidf_score']:.4f}")
         print(f"   - LDA: {result['lda_score']:.4f}")

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Main Script for Job Matcher System
-Easy-to-use interface for matching resumes to jobs
+Easy-to-use interface for matching resumes to jobs using NLP techniques
 """
 
 import argparse
@@ -9,6 +9,8 @@ import sys
 import os
 from JobMatcher import JobMatcher, print_results, save_results_to_json, save_results_to_text
 from ResumeExtractor import ResumeExtractor
+from ResumeParser import ResumeParser
+from ResumeParser import ResumeParser
 
 
 def main():
@@ -91,6 +93,31 @@ Examples:
         help='Show discovered LDA topics and exit'
     )
     
+    parser.add_argument(
+        '--parse-resume',
+        action='store_true',
+        help='Parse resume for structured info (years, degree, skills)'
+    )
+    
+    parser.add_argument(
+        '--validate',
+        action='store_true',
+        help='Validate resume against requirements'
+    )
+    
+    parser.add_argument(
+        '--min-years',
+        type=int,
+        help='Minimum years of experience required (for validation)'
+    )
+    
+    parser.add_argument(
+        '--required-degree',
+        type=str,
+        choices=['associates', 'bachelors', 'masters', 'phd'],
+        help='Required education level (for validation)'
+    )
+    
     args = parser.parse_args()
     
     # Validate weights sum to 1.0
@@ -141,6 +168,109 @@ Examples:
         print(f"Error extracting resume text: {str(e)}")
         sys.exit(1)
     
+    # Parse resume if requested
+    if args.parse_resume:
+        print("\n" + "="*60)
+        print("PARSING RESUME")
+        print("="*60)
+        parser_obj = ResumeParser()
+        parsed_data = parser_obj.parse(resume_text)
+        parser_obj.print_parsed_info(parsed_data)
+    
+    # Validate resume if requested
+    if args.validate:
+        print("\n" + "="*60)
+        print("VALIDATING RESUME")
+        print("="*60)
+        
+        # Build requirements dict
+        requirements = {}
+        if args.min_years:
+            requirements['min_years'] = args.min_years
+        if args.required_degree:
+            requirements['required_degree'] = args.required_degree
+        
+        if not requirements:
+            print("Warning: No validation requirements specified.")
+            print("Use --min-years and/or --required-degree to set requirements.")
+        else:
+            parser_obj = ResumeParser()
+            validation = parser_obj.validate_requirements(resume_text, requirements)
+            
+            print(f"\nRequirements:")
+            if 'min_years' in requirements:
+                print(f"  - Minimum years: {requirements['min_years']}")
+            if 'required_degree' in requirements:
+                print(f"  - Required degree: {requirements['required_degree']}")
+            
+            print(f"\nMeets Requirements: {'YES' if validation['meets_requirements'] else 'NO'}")
+            
+            for category, details in validation['details'].items():
+                print(f"\n{category.replace('_', ' ').upper()}:")
+                for key, value in details.items():
+                    print(f"  {key}: {value}")
+            
+            if not validation['meets_requirements']:
+                print("\n[!] Resume does not meet all requirements")
+                print("You may still see job matches, but candidate may not qualify.")
+            else:
+                print("\n[OK] Resume meets all requirements!")
+            
+            print("="*60 + "\n")
+    
+    # Parse resume for structured information
+    print("\nAnalyzing resume...")
+    parser_resume = ResumeParser()
+    parsed_info = parser_resume.parse(resume_text)
+    
+    print("\nRESUME ANALYSIS:")
+    print("-" * 60)
+    if parsed_info['years_of_experience']:
+        print(f"  Years of Experience: {parsed_info['years_of_experience']}")
+    else:
+        print(f"  Years of Experience: Not specified")
+    
+    if parsed_info['education_level']:
+        print(f"  Education Level: {parsed_info['education_level'].title()}")
+        if parsed_info['degree_details']:
+            print(f"  Degree(s): {', '.join(parsed_info['degree_details'])}")
+    else:
+        print(f"  Education Level: Not specified")
+    
+    if parsed_info['skills']:
+        print(f"  Skills: {len(parsed_info['skills'])} found")
+        print(f"    Top skills: {', '.join(parsed_info['skills'][:5])}")
+    
+    print("-" * 60)
+    
+    # Store parsed info for later use
+    resume_qualifications = {
+        'years': parsed_info['years_of_experience'],
+        'degree': parsed_info['education_level']
+    }
+    
+    print("\nRESUME ANALYSIS:")
+    print("-" * 60)
+    if parsed_info['years_of_experience']:
+        print(f"  Years of Experience: {parsed_info['years_of_experience']}")
+    else:
+        print(f"  Years of Experience: Not detected")
+    
+    if parsed_info['education_level']:
+        print(f"  Education Level: {parsed_info['education_level'].title()}")
+    else:
+        print(f"  Education Level: Not detected")
+    
+    if parsed_info['skills']:
+        print(f"  Skills Detected: {len(parsed_info['skills'])}")
+        print(f"    Top Skills: {', '.join(parsed_info['skills'][:10])}")
+        if len(parsed_info['skills']) > 10:
+            print(f"    ... and {len(parsed_info['skills']) - 10} more")
+    else:
+        print(f"  Skills Detected: 0")
+    
+    print("-" * 60)
+    
     # Prepare weights
     weights = {
         'tfidf': args.tfidf_weight,
@@ -156,6 +286,58 @@ Examples:
     # Match jobs
     print(f"\nFinding top {args.top} matching jobs...")
     results = matcher.match_jobs(resume_text, top_k=args.top, weights=weights)
+    
+    # Always parse job requirements and add them to results
+    print("Analyzing job requirements...")
+    for result in results:
+        job = result['job']
+        job_desc = job.get('description', '')
+        
+        # Parse job requirements
+        job_reqs = parser_resume.parse_job_requirements(job_desc)
+        result['job_requirements'] = job_reqs
+        
+        # Check if candidate qualifies (if we have their info)
+        if resume_qualifications['years'] is not None or resume_qualifications['degree'] is not None:
+            qualifies = parser_resume.candidate_qualifies(
+                resume_qualifications['years'],
+                resume_qualifications['degree'],
+                job_reqs
+            )
+            result['candidate_qualifies'] = qualifies
+        else:
+            result['candidate_qualifies'] = None  # Unknown
+    
+    # Filter jobs based on requirements if validation was requested
+    if args.validate and (args.min_years or args.required_degree):
+        print("\nFiltering jobs based on your qualifications...")
+        
+        filtered_results = []
+        filtered_out = 0
+        
+        for result in results:
+            if result.get('candidate_qualifies', True):  # Keep if qualifies or unknown
+                filtered_results.append(result)
+            else:
+                filtered_out += 1
+        
+        if filtered_out > 0:
+            print(f"[!] Filtered out {filtered_out} jobs where you don't meet minimum requirements")
+            print(f"[OK] Showing {len(filtered_results)} jobs where you qualify\n")
+        
+        results = filtered_results
+        
+        if len(results) == 0:
+            print("\n[!] No jobs found matching your qualifications.")
+            print("Try:")
+            print("  1. Removing --validate to see all matches")
+            print("  2. Lowering requirements with --min-years or --required-degree")
+            sys.exit(0)
+    
+    # Check if we have results
+    if len(results) == 0:
+        print("\n[!] No matching jobs found")
+        sys.exit(0)
     
     # Print results
     print_results(results, top_n=min(10, args.top))
@@ -176,8 +358,14 @@ Examples:
     else:
         # If no output specified, save with default name in results folder
         resume_name = os.path.splitext(os.path.basename(args.resume))[0]
-        default_json = f"{resume_name}_matches.json"
-        default_txt = f"{resume_name}_matches.txt"
+        
+        # Different names for filtered vs unfiltered
+        if args.validate and (args.min_years or args.required_degree):
+            default_json = f"{resume_name}_matches_FILTERED.json"
+            default_txt = f"{resume_name}_matches_FILTERED.txt"
+        else:
+            default_json = f"{resume_name}_matches.json"
+            default_txt = f"{resume_name}_matches.txt"
         
         save_results_to_json(results, default_json)
         save_results_to_text(results, default_txt, resume_file=args.resume,
