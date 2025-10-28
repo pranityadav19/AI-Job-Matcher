@@ -4,7 +4,7 @@ Intelligent job matching system using NLP to match resumes with job postings.
 
 ## Features
 
-- **Multi-Method Matching**: TF-IDF, LDA Topic Modeling, Sentence Embeddings
+- **Multi-Method Matching**: TF-IDF, LDA Topic Modeling, Sentence Embeddings 
 - **Match Explanations**: Shows WHY each job matched with keywords and overlap %
 - **Multiple Formats**: Supports PDF, DOCX, TXT resumes
 - **Smart Results**: Auto-saves to JSON and readable text files
