@@ -117,7 +117,21 @@ Examples:
         choices=['associates', 'bachelors', 'masters', 'phd'],
         help='Required education level (for validation)'
     )
-    
+
+    # NEW: Manual input for your experience and degree
+    parser.add_argument(
+        '--my-years',
+        type=int,
+        help='Your years of experience (overrides resume parsing)'
+    )
+
+    parser.add_argument(
+        '--my-degree',
+        type=str,
+        choices=['associates', 'bachelors', 'masters', 'phd'],
+        help='Your education level (overrides resume parsing)'
+    )
+
     args = parser.parse_args()
     
     # Validate weights sum to 1.0
@@ -222,54 +236,45 @@ Examples:
     print("\nAnalyzing resume...")
     parser_resume = ResumeParser()
     parsed_info = parser_resume.parse(resume_text)
-    
+
+    # IMPROVED: Use manual input if provided, otherwise use parsed values
+    if args.my_years is not None:
+        resume_years = args.my_years
+        print(f"\n[MANUAL INPUT] Using your specified years: {resume_years}")
+    else:
+        resume_years = parsed_info['years_of_experience']
+
+    if args.my_degree is not None:
+        resume_degree = args.my_degree
+        print(f"[MANUAL INPUT] Using your specified degree: {resume_degree}")
+    else:
+        resume_degree = parsed_info['education_level']
+
     print("\nRESUME ANALYSIS:")
     print("-" * 60)
-    if parsed_info['years_of_experience']:
-        print(f"  Years of Experience: {parsed_info['years_of_experience']}")
+    if resume_years:
+        print(f"  Years of Experience: {resume_years}")
     else:
         print(f"  Years of Experience: Not specified")
-    
-    if parsed_info['education_level']:
-        print(f"  Education Level: {parsed_info['education_level'].title()}")
+
+    if resume_degree:
+        print(f"  Education Level: {resume_degree.title()}")
         if parsed_info['degree_details']:
             print(f"  Degree(s): {', '.join(parsed_info['degree_details'])}")
     else:
         print(f"  Education Level: Not specified")
-    
+
     if parsed_info['skills']:
         print(f"  Skills: {len(parsed_info['skills'])} found")
         print(f"    Top skills: {', '.join(parsed_info['skills'][:5])}")
-    
+
     print("-" * 60)
-    
-    # Store parsed info for later use
+
+    # Store qualifications for later use
     resume_qualifications = {
-        'years': parsed_info['years_of_experience'],
-        'degree': parsed_info['education_level']
+        'years': resume_years,
+        'degree': resume_degree
     }
-    
-    print("\nRESUME ANALYSIS:")
-    print("-" * 60)
-    if parsed_info['years_of_experience']:
-        print(f"  Years of Experience: {parsed_info['years_of_experience']}")
-    else:
-        print(f"  Years of Experience: Not detected")
-    
-    if parsed_info['education_level']:
-        print(f"  Education Level: {parsed_info['education_level'].title()}")
-    else:
-        print(f"  Education Level: Not detected")
-    
-    if parsed_info['skills']:
-        print(f"  Skills Detected: {len(parsed_info['skills'])}")
-        print(f"    Top Skills: {', '.join(parsed_info['skills'][:10])}")
-        if len(parsed_info['skills']) > 10:
-            print(f"    ... and {len(parsed_info['skills']) - 10} more")
-    else:
-        print(f"  Skills Detected: 0")
-    
-    print("-" * 60)
     
     # Prepare weights
     weights = {
@@ -285,18 +290,38 @@ Examples:
     
     # Match jobs
     print(f"\nFinding top {args.top} matching jobs...")
-    results = matcher.match_jobs(resume_text, top_k=args.top, weights=weights)
+    # IMPROVED: Pass resume years to matching algorithm for experience-based scoring
+    results = matcher.match_jobs(
+        resume_text,
+        top_k=args.top,
+        weights=weights,
+        resume_years=resume_qualifications['years'],
+        apply_experience_boost=True
+    )
     
     # Always parse job requirements and add them to results
     print("Analyzing job requirements...")
+
+    # IMPROVED: Track statistics about detected requirements
+    jobs_with_years = 0
+    jobs_with_degree = 0
+    years_distribution = []
+
     for result in results:
         job = result['job']
         job_desc = job.get('description', '')
-        
+
         # Parse job requirements
         job_reqs = parser_resume.parse_job_requirements(job_desc)
         result['job_requirements'] = job_reqs
-        
+
+        # IMPROVED: Track statistics
+        if 'min_years' in job_reqs:
+            jobs_with_years += 1
+            years_distribution.append(job_reqs['min_years'])
+        if 'required_degree' in job_reqs:
+            jobs_with_degree += 1
+
         # Check if candidate qualifies (if we have their info)
         if resume_qualifications['years'] is not None or resume_qualifications['degree'] is not None:
             qualifies = parser_resume.candidate_qualifies(
@@ -307,6 +332,20 @@ Examples:
             result['candidate_qualifies'] = qualifies
         else:
             result['candidate_qualifies'] = None  # Unknown
+
+    # IMPROVED: Display requirements detection statistics
+    print(f"\nJOB REQUIREMENTS DETECTION:")
+    print("-" * 60)
+    print(f"  Jobs with years requirement detected: {jobs_with_years}/{len(results)}")
+    print(f"  Jobs with degree requirement detected: {jobs_with_degree}/{len(results)}")
+    if years_distribution:
+        avg_years = sum(years_distribution) / len(years_distribution)
+        min_years = min(years_distribution)
+        max_years = max(years_distribution)
+        print(f"  Years required: min={min_years}, max={max_years}, avg={avg_years:.1f}")
+    else:
+        print(f"  No explicit years requirements detected in job descriptions")
+    print("-" * 60)
     
     # Filter jobs based on requirements if validation was requested
     if args.validate and (args.min_years or args.required_degree):

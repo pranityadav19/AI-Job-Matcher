@@ -338,24 +338,57 @@ class ResumeParser:
     def parse_job_requirements(self, job_description: str) -> Dict:
         """
         Parse job requirements from job description
-        
+
+        IMPROVED: Now detects experience levels, entry-level, junior, mid-level, senior
+
         Args:
             job_description: Job description text
-            
+
         Returns:
-            Dict with requirements like {'min_years': 3, 'required_degree': 'bachelors'}
+            Dict with requirements like {'min_years': 3, 'required_degree': 'bachelors', 'level': 'senior'}
         """
         text_lower = job_description.lower()
         requirements = {}
-        
-        # Extract minimum years required
+
+        # IMPROVED: Detect experience level keywords first
+        level_keywords = {
+            'entry': 0,
+            'entry level': 0,
+            'entry-level': 0,
+            'junior': 1,
+            'associate': 1,
+            'mid level': 3,
+            'mid-level': 3,
+            'intermediate': 3,
+            'senior': 5,
+            'lead': 7,
+            'principal': 8,
+            'staff': 7,
+            'expert': 8
+        }
+
+        detected_levels = []
+        for keyword, years in level_keywords.items():
+            # Look for the keyword with word boundaries or as part of job title
+            if re.search(r'\b' + re.escape(keyword) + r'\b', text_lower):
+                detected_levels.append((keyword, years))
+
+        # IMPROVED: Extract minimum years required with more patterns
         years_patterns = [
-            r'(\d+)\+?\s*years?\s+(?:of\s+)?(?:experience|exp)',
-            r'minimum\s+(?:of\s+)?(\d+)\s*years?',
-            r'at least\s+(\d+)\s*years?',
-            r'(\d+)\+\s*years?'
+            # Exact patterns like "5 years of experience" or "5+ years"
+            r'(\d+)\+?\s*(?:to|\-)\s*\d+\s*years?\s+(?:of\s+)?(?:experience|exp)',  # "3-5 years"
+            r'(\d+)\+?\s*years?\s+(?:of\s+)?(?:experience|exp)',  # "5 years of experience"
+            r'(\d+)\+\s*years?',  # "5+ years"
+            r'minimum\s+(?:of\s+)?(\d+)\s*years?',  # "minimum 3 years"
+            r'at least\s+(\d+)\s*years?',  # "at least 3 years"
+            r'(\d+)\s*years?\s+minimum',  # "3 years minimum"
+            r'(\d+)\s*years?\s+required',  # "3 years required"
+            r'requires?\s+(\d+)\s*years?',  # "requires 3 years"
+            # Experience ranges
+            r'(\d+)\s*to\s*\d+\s*years?',  # "3 to 5 years"
+            r'between\s+(\d+)\s+and\s+\d+\s+years?',  # "between 3 and 5 years"
         ]
-        
+
         years_found = []
         for pattern in years_patterns:
             matches = re.findall(pattern, text_lower, re.IGNORECASE)
@@ -366,9 +399,16 @@ class ResumeParser:
                         years_found.append(years)
                 except ValueError:
                     continue
-        
+
+        # Determine minimum years from explicit mentions or level keywords
         if years_found:
             requirements['min_years'] = min(years_found)  # Use minimum to be inclusive
+        elif detected_levels:
+            # Use the level keyword if no explicit years found
+            # Take the maximum level detected (most conservative)
+            max_level = max(detected_levels, key=lambda x: x[1])
+            requirements['min_years'] = max_level[1]
+            requirements['level'] = max_level[0]
         
         # Extract degree requirements
         degree_requirements = []
