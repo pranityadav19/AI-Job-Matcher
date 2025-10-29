@@ -332,17 +332,23 @@ class JobMatcher:
         self,
         resume_text: str,
         top_k: int = 20,
-        weights: Dict[str, float] = None
+        weights: Dict[str, float] = None,
+        resume_years: int = None,
+        apply_experience_boost: bool = True
     ) -> List[Dict]:
         """
         Match jobs to a resume using hybrid approach
-        
+
+        IMPROVED: Now considers years of experience in scoring
+
         Args:
             resume_text: Text content of the resume
             top_k: Number of top matches to return
             weights: Dictionary of weights for each method
                     {'tfidf': 0.3, 'lda': 0.2, 'embedding': 0.5}
-        
+            resume_years: Years of experience from resume (optional)
+            apply_experience_boost: Whether to apply experience-based score adjustment
+
         Returns:
             List of top matching jobs with scores
         """
@@ -350,7 +356,7 @@ class JobMatcher:
         if self.tfidf_matrix is None:
             print("Models not trained. Training now...")
             self.train_models()
-        
+
         # Default weights if not provided
         if weights is None:
             weights = {
@@ -358,16 +364,16 @@ class JobMatcher:
                 'lda': 0.25,        # Topic similarity
                 'embedding': 0.50   # Semantic similarity (most important)
             }
-        
+
         print("Preprocessing resume...")
         resume_processed = self._preprocess_resume(resume_text)
-        
+
         print("Calculating similarities...")
         # Calculate similarities using each method
         tfidf_scores = self._calculate_tfidf_similarity(resume_processed)
         lda_scores = self._calculate_lda_similarity(resume_processed)
         embedding_scores = self._calculate_embedding_similarity(resume_processed)
-        
+
         # Normalize scores to 0-1 range
         def normalize(scores):
             min_score = scores.min()
@@ -375,21 +381,71 @@ class JobMatcher:
             if max_score - min_score > 0:
                 return (scores - min_score) / (max_score - min_score)
             return scores
-        
+
         tfidf_scores_norm = normalize(tfidf_scores)
         lda_scores_norm = normalize(lda_scores)
         embedding_scores_norm = normalize(embedding_scores)
-        
+
         # Calculate weighted combined score
         combined_scores = (
             weights['tfidf'] * tfidf_scores_norm +
             weights['lda'] * lda_scores_norm +
             weights['embedding'] * embedding_scores_norm
         )
-        
-        # Get top k indices
+
+        # IMPROVED: Apply experience-based scoring adjustment
+        if apply_experience_boost and resume_years is not None:
+            print(f"Applying experience-based score adjustment (resume: {resume_years} years)...")
+
+            # Import ResumeParser here to avoid circular dependency
+            from ResumeParser import ResumeParser
+            parser = ResumeParser()
+
+            for idx in range(len(self.processed_jobs)):
+                job = self.processed_jobs[idx]['original']
+                job_desc = job.get('description', '')
+
+                # Parse job requirements
+                job_reqs = parser.parse_job_requirements(job_desc)
+
+                if 'min_years' in job_reqs:
+                    required_years = job_reqs['min_years']
+
+                    # Calculate experience match score
+                    # Perfect match: resume_years matches required (score boost: +10%)
+                    # Overqualified: resume_years > required (slight penalty: -5% per 3 years over)
+                    # Underqualified: resume_years < required (penalty: -15% per year short)
+
+                    if resume_years >= required_years:
+                        # Qualified or overqualified
+                        years_over = resume_years - required_years
+                        if years_over == 0:
+                            # Perfect match
+                            boost = 0.10
+                        elif years_over <= 2:
+                            # Slightly more experience (good)
+                            boost = 0.08
+                        elif years_over <= 5:
+                            # Moderately overqualified (still good)
+                            boost = 0.05
+                        else:
+                            # Very overqualified (might be looking for more senior role)
+                            boost = -0.05 * (years_over // 3)
+                            boost = max(boost, -0.15)  # Cap penalty at -15%
+                    else:
+                        # Underqualified
+                        years_short = required_years - resume_years
+                        boost = -0.15 * years_short
+                        boost = max(boost, -0.40)  # Cap penalty at -40%
+
+                    # Apply boost to the combined score
+                    combined_scores[idx] = combined_scores[idx] * (1 + boost)
+                    # Ensure score stays in valid range
+                    combined_scores[idx] = max(0.0, min(1.0, combined_scores[idx]))
+
+        # Get top k indices (after experience adjustment)
         top_indices = np.argsort(combined_scores)[::-1][:top_k]
-        
+
         # Prepare results
         results = []
         for idx in top_indices:
@@ -401,7 +457,7 @@ class JobMatcher:
                 'lda_score': float(lda_scores_norm[idx]),
                 'embedding_score': float(embedding_scores_norm[idx])
             })
-        
+
         print(f"[OK] Found top {top_k} matching jobs\n")
         return results
     
@@ -523,6 +579,8 @@ def save_results_to_json(results: List[Dict], output_file: str):
     # Prepare data for JSON serialization
     output_data = []
     for result in results:
+        # IMPROVED: Don't truncate description - we need full text for parsing requirements
+        description = result['job']['description']
         output_data.append({
             'job_id': result['job']['id'],
             'title': result['job']['title'],
@@ -536,7 +594,7 @@ def save_results_to_json(results: List[Dict], output_file: str):
                 'lda': result['lda_score'],
                 'embedding': result['embedding_score']
             },
-            'description': result['job']['description'][:500] + "..."  # Truncate for readability
+            'description': description  # Full description (no truncation)
         })
     
     with open(output_file, 'w', encoding='utf-8') as f:
